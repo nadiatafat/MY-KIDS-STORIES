@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ChildStoryInsight",
+  "description": "A child-centered structure for capturing daily experiences to fuel storytelling and parent insights.",
+  "type": "object",
+  "properties": {
+    "heart_weather": {
+      "type": "object",
+      "description": "Captures the child's current emotional state in non-clinical, visual terms.",
+      "properties": {
+        "mood": {
+          "type": "string",
+          "description": "The primary feeling (e.g., Sunny, Bouncy, Quiet, Stormy, Prickly)."
+        },
+        "feeling_color": {
+          "type": "string",
+          "description": "A color associated with the emotion for visual storytelling."
+        },
+        "energy_level": {
+          "type": "string",
+          "enum": ["Sleepy", "Steady", "Zippy"],
+          "description": "The child's physical energy state."
+        }
+      },
+      "required": ["mood"]
+    },
+    "the_big_happening": {
+      "type": "object",
+      "description": "The situation or event the child shared from their day.",
+      "properties": {
+        "what_happened": {
+          "type": "string",
+          "description": "A simple summary of the event."
+        },
+        "key_players": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Friends, family, or pets involved."
+        },
+        "the_setting": {
+          "type": "string",
+          "description": "Where the event took place (e.g., The Big Slide, The Kitchen Table)."
+        }
+      },
+      "required": ["what_happened"]
+    },
+    "the_inner_wish": {
+      "type": "object",
+      "description": "Identifies the underlying emotional need or desire.",
+      "properties": {
+        "core_need": {
+          "type": "string",
+          "description": "What the child needs right now (e.g., To feel brave, To be noticed, To find comfort, To celebrate)."
+        },
+        "story_medicine": {
+          "type": "string",
+          "description": "The specific theme the story should address to help the child."
+        }
+      },
+      "required": ["core_need"]
+    },
+    "story_seeds": {
+      "type": "object",
+      "description": "Direct inputs for the AI story generator.",
+      "properties": {
+        "hero_avatar": {
+          "type": "string",
+          "description": "A character type that mirrors the child's current state (e.g., A small mouse in a big forest)."
+        },
+        "magical_helper": {
+          "type": "string",
+          "description": "An element that provides the support the child needs."
+        },
+        "the_challenge": {
+          "type": "string",
+          "description": "A metaphorical version of the child's daily struggle."
+        }
+      }
+    },
+    "parent_peek": {
+      "type": "object",
+      "description": "Insights translated for the parent to support connection.",
+      "properties": {
+        "today_in_a_nutshell": {
+          "type": "string",
+          "description": "A brief summary of the child's emotional landscape."
+        },
+        "connection_spark": {
+          "type": "string",
+          "description": "A suggested question or activity for the parent to do with the child."
+        }
+      }
+    },
+    "memory_box": {
+      "type": "object",
+      "description": "Data for long-term memory and tracking growth.",
+      "properties": {
+        "milestone_type": {
+          "type": "string",
+          "description": "Categorizes the memory (e.g., Friendship, Bravery, Discovery, Big Change)."
+        },
+        "growth_snapshot": {
+          "type": "string",
+          "description": "How this experience contributes to the child's emotional journey."
+        }
+      }
+    }
+  },
+  "required": ["heart_weather", "the_big_happening", "the_inner_wish"]
+}
