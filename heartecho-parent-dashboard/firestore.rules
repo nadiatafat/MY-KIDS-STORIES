@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Fields: uid, email, displayName, childName, createdAt
+    //
+    // Collection: sessions
+    // Fields: userId, emotion, topic, summary, storyTitle, character, timestamp, intensity
+    //
+    // Collection: insights
+    // Fields: userId, weekStartDate, summary, conversationStarter, theme, timestamp
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidSession(data) {
+      return data.userId is string &&
+             data.emotion in ['Joy', 'Fear', 'Anger', 'Sadness', 'Calm', 'Excited', 'Frustrated'] &&
+             data.topic is string && data.topic.size() < 100 &&
+             data.summary is string && data.summary.size() < 1000 &&
+             data.storyTitle is string && data.storyTitle.size() < 200 &&
+             data.character is string && data.character.size() < 100 &&
+             data.intensity is number && data.intensity >= 0 && data.intensity <= 10;
+    }
+
+    function isValidInsight(data) {
+      return data.userId is string &&
+             data.weekStartDate is string &&
+             data.summary is string && data.summary.size() < 1000 &&
+             data.conversationStarter is string && data.conversationStarter.size() < 500 &&
+             data.theme is string && data.theme.size() < 100;
+    }
+
+    // Rules
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid && isValidSession(request.resource.data);
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid && isValidSession(request.resource.data);
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+
+    match /insights/{insightId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid && isValidInsight(request.resource.data);
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid && isValidInsight(request.resource.data);
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+  }
+}

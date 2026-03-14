@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Parent user profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "childName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Session": {
+      "title": "Session",
+      "description": "A child's audio session data",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "emotion": { "type": "string", "description": "Detected emotion (e.g., Joy, Fear, Anger, Sadness, Calm)" },
+        "topic": { "type": "string" },
+        "summary": { "type": "string" },
+        "storyTitle": { "type": "string" },
+        "character": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "intensity": { "type": "number", "description": "1-10 intensity of the emotion" }
+      },
+      "required": ["userId", "emotion", "timestamp"]
+    },
+    "Insight": {
+      "title": "Insight",
+      "description": "Weekly AI-generated insight for the parent",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "weekStartDate": { "type": "string", "format": "date" },
+        "summary": { "type": "string" },
+        "conversationStarter": { "type": "string" },
+        "theme": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "weekStartDate", "summary"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "Collection of parent users"
+    },
+    "sessions": {
+      "schema": "Session",
+      "description": "Collection of child sessions"
+    },
+    "insights": {
+      "schema": "Insight",
+      "description": "Collection of weekly insights"
+    }
+  }
+}

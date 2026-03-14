@@ -1,0 +1,7 @@
+{
+  "name": "HeartEcho Parent Dashboard",
+  "description": "An emotionally intelligent dashboard for parents to track their child's emotional and narrative growth through personalized story worlds.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

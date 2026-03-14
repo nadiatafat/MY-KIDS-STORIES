@@ -1,0 +1,5 @@
+{
+  "name": "My kid story",
+  "description": "Transform daily experiences into personalized stories that help children understand and manage their emotions through AI-powered storytelling.",
+  "requestFramePermissions": ["microphone"]
+}
